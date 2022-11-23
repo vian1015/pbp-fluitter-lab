@@ -86,3 +86,94 @@ Create a new file, `form.dart`. Used the TextFormField for both Title and Amount
 
 ### Add a page of Budget Data
 Create a new file, `data.dart`. Used Card and ListTile widget to show the datas from `model.dart`.
+
+# ASSIGNMENT 9
+## Can we retrieve JSON data without creating a model first?
+Yes we can, but it is better to create a model first, as to have a more concise and readable code.
+
+## Widgets Used
+1. FutureBuilder<br>
+Widget that builds itself based on the latest snapshot of interaction with a Future
+
+## Mechanism of retrieving data from json
+First off, we have to parse our URI string into object. We can do this by using `Uri.parse()` method. After we get our URI object, we use `http.get()` method to get the data from our URI object. The fetched JSON data is in the form of String, therefore we need to decode the data using `jsonDecode()` function to obtain JSON object. We can then store our JSON object to its corresponding models.
+
+## Implementation
+### Adding a navigation button on the drawer/hamburger to go to the mywatchlist page.
+`drawer.dart`
+``` dart
+...
+                    ListTile(
+                        title: const Text('My Watch List'),
+                        onTap: () {
+                        // Route menu ke halaman form
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const WatchListPage()),
+                        );
+                        },
+                    ),
+...
+```
+
+### Create one Dart file that contains the mywatchlist model.
+Created `model.dart`
+
+### Add a mywatchlist page
+``` dart
+class WatchListPage extends StatefulWidget {
+    ...
+}
+
+class _WatchListPageState extends State<WatchListPage> {
+    ...
+}
+```
+#### Create a navigation from each watch list title to the detail page
+``` dart
+...
+                                                    child: ListTile(
+                                                        ...
+                                                        onTap: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(builder: (context) => DetailPage(movie: snapshot.data![index])),
+                                                            );
+                                                        },
+                                                    ),
+...
+```
+
+#### Add a detail page for each mywatchlist
+Created `details.dart`
+``` dart
+class DetailPage extends StatelessWidget {
+  ...
+}
+```
+
+#### Add a button to go back to the mywatchlist list
+```dart
+...
+        bottomNavigationBar: BottomAppBar(
+            color: Colors.transparent,
+            elevation: 0,
+            child: Padding(
+                padding: EdgeInsets.all(12.0),
+                child:TextButton(
+                    child: const Text(
+                        'Back',
+                        style: TextStyle(color: Colors.white),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                    ),
+                    onPressed: () {
+                        Navigator.pop(context);
+                    }
+                ),
+            ),
+        ),
+    );
+...
+```

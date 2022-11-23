@@ -16,14 +16,12 @@ class WatchListPage extends StatefulWidget {
 class _WatchListPageState extends State<WatchListPage> {
     Future<List<WatchList>> fetchWatchList() async {
         var url = Uri.parse('https://pbp-asg2.herokuapp.com/mywatchlist/json/');
-        print("fetching...");
         var response = await http.get(
         url,
         headers: {
             "Content-Type": "application/json",
         },
         );
-        print("fetched!");
 
         // decode the response into the json form
         var data = jsonDecode(utf8.decode(response.bodyBytes));

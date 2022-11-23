@@ -69,12 +69,12 @@ class DetailPage extends StatelessWidget {
             child: Padding(
                 padding: EdgeInsets.all(12.0),
                 child:TextButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    ),
                     child: const Text(
                         'Back',
                         style: TextStyle(color: Colors.white),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
                     ),
                     onPressed: () {
                         Navigator.pop(context);
