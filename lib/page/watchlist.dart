@@ -57,11 +57,10 @@ class _WatchListPageState extends State<WatchListPage> {
                                             return Card(
                                                 elevation: 8.0,
                                                 margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                                shape: RoundedRectangleBorder(
+                                                    side: BorderSide(width: 1, color: snapshot.data![index].fields.watched ? Colors.blue : Colors.red)
+                                                ),
                                                 child: Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        border: Border.all(color: snapshot.data![index].fields.watched ? Colors.blue : Colors.red),
-                                                    ),
                                                     child: ListTile(
                                                         contentPadding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
                                                         leading: Container(
