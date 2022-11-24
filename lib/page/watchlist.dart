@@ -1,7 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 import 'package:counter_7/page/drawer.dart';
 import 'package:counter_7/page/details.dart';
+import 'package:counter_7/page/fetch_data.dart';
 import 'package:counter_7/model/model.dart';
 import 'package:flutter/material.dart';
 
@@ -14,29 +16,12 @@ class WatchListPage extends StatefulWidget {
 }
 
 class _WatchListPageState extends State<WatchListPage> {
-    Future<List<WatchList>> fetchWatchList() async {
-        var url = Uri.parse('https://pbp-asg2.herokuapp.com/mywatchlist/json/');
-        var response = await http.get(
-        url,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        );
-
-        // decode the response into the json form
-        var data = jsonDecode(utf8.decode(response.bodyBytes));
-
-        // convert the json data into WatchList object
-        List<WatchList> listWatchList = [];
-        for (var d in data) {
-            if (d != null) {
-                listWatchList.add(WatchList.fromJson(d));
-            }
-        }
-
-        return listWatchList;
-    }
+    Future? future;
     @override
+    void initState() {
+        future = fetchWatchList();
+        super.initState();
+    }
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
@@ -44,7 +29,7 @@ class _WatchListPageState extends State<WatchListPage> {
             ),
             drawer: DrawerWidget(),
             body: FutureBuilder(
-                future: fetchWatchList(),
+                future: future,
                 builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.data == null) {
                     return const Center(child: CircularProgressIndicator());
@@ -73,6 +58,10 @@ class _WatchListPageState extends State<WatchListPage> {
                                                 elevation: 8.0,
                                                 margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                                                 child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        border: Border.all(color: snapshot.data![index].fields.watched ? Colors.blue : Colors.red),
+                                                    ),
                                                     child: ListTile(
                                                         contentPadding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
                                                         leading: Container(
@@ -82,8 +71,16 @@ class _WatchListPageState extends State<WatchListPage> {
                                                                     right: new BorderSide(width: 1.0, color: Colors.grey),
                                                                 ),
                                                             ),
-                                                            child: Icon(
-                                                                Icons.local_movies_outlined,
+                                                            child: IconButton(
+                                                                icon: Icon(
+                                                                    Icons.local_movies_outlined, 
+                                                                    color: snapshot.data![index].fields.watched ? Colors.blue : Colors.red 
+                                                                ),
+                                                                onPressed: () {
+                                                                    setState(() {
+                                                                        snapshot.data![index].fields.watched = !snapshot.data![index].fields.watched;
+                                                                    });
+                                                                },
                                                             ),
                                                         ),
                                                         title: Text(
