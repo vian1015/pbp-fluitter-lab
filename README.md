@@ -94,6 +94,8 @@ Yes we can, but it is better to create a model first, as to have a more concise 
 ## Widgets Used
 1. FutureBuilder<br>
 Widget that builds itself based on the latest snapshot of interaction with a Future
+2. IconButton<br>
+A flutter icon with button functionality
 
 ## Mechanism of retrieving data from json
 First off, we have to parse our URI string into object. We can do this by using `Uri.parse()` method. After we get our URI object, we use `http.get()` method to get the data from our URI object. The fetched JSON data is in the form of String, therefore we need to decode the data using `jsonDecode()` function to obtain JSON object. We can then store our JSON object to its corresponding models.
